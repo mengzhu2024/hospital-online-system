@@ -1,0 +1,35 @@
+/* 这个文件是用来做一些清除工作的 */
+
+/* 清除所有标签自带的间距 */
+*{
+    padding: 0;
+    margin: 0;
+}
+/* 让加粗标签不加粗 */
+b,strong{
+    font-weight: 400;
+}
+/* 让倾斜标签不倾斜 */
+i,em{
+    font-style: normal;
+}
+/* 取消自带的下划线 */
+a,u{
+    text-decoration: none;
+}
+/* 取消列表标签的列表符号 */
+ul,ol,li{
+    list-style: none;
+}
+/* 让标题标签不加粗，字号统一 */
+h1,h2,h3,h4,h5,h6{
+    font-weight: 400;
+    font-size: 16px;
+}
+input{
+    /* 取消点击之后的轮廓线 */
+    outline: none;
+    /* 取消自带边框线 */
+    border: none;
+    border: 0;
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.hc.common.mapper.OrderInfoMapper">
+    <resultMap id="orderVO" type="com.wk.hc.common.vo.OrderVO">
+        <result column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="total_price" property="totalPrice"/>
+        <result column="patient_id" property="patientId"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="pay_type" property="payType"/>
+        <collection property="products" column="id=id" select="cartList">
+
+        </collection>
+    </resultMap>
+
+    <select id="getOrderList" resultMap="orderVO">
+        SELECT *
+        FROM order_info
+        where patient_id = #{customerId} and status != '-1'
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getOrderInfo" resultMap="orderVO">
+        SELECT *
+        FROM order_info
+        where id = #{orderId}
+        ORDER BY create_time DESC
+    </select>
+
+    <resultMap id="cartVO" type="com.wk.hc.common.vo.CartVO">
+        <result column="id" property="id"/>
+        <result column="medicine_id" property="medicineId"/>
+        <result column="amount" property="amount"/>
+        <result column="patient_id" property="patientId"/>
+        <result column="name" property="name"/>
+        <result column="old_price" property="price"/>
+        <result column="code" property="code"/>
+        <result column="img_path" property="imgPath"/>
+        <result column="description" property="description"/>
+        <result column="manufacturer" property="manufacturer"/>
+    </resultMap>
+
+    <select id="cartList" resultMap="cartVO">
+        SELECT *
+        FROM order_detail
+                 INNER JOIN medicine ON order_detail.medicine_id = medicine.id
+        WHERE order_detail.order_id = #{id}
+    </select>
+
+    <!-- <select id="getAllOrderList" resultMap="cartVO">
+         SELECT *
+         FROM order_info
+         where customer_id = #{customerId} and status != '-1'
+         ORDER BY create_time DESC
+     </select>-->
+    <select id="getAllOrderList" resultType="com.wk.hc.common.vo.OrderListVO">
+        SELECT *
+        from order_info
+        INNER JOIN order_address on order_info.id = order_address.order_id
+        <where>
+            <if test="code != null and code != ''">
+                and instr(code,#{code})>0
+            </if>
+            <choose>
+                <when test="status == '-1'">and status != '-1'</when>
+                <otherwise>and status = #{status}</otherwise>
+            </choose>
+        </where>
+
+        ORDER BY create_time DESC
+    </select>
+</mapper>

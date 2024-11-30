@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/healthcare
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+  cache:
+    type: redis
+  jackson:
+    time-zone: GMT+8
+server:
+  port: 8089
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+alipay:
+  appId: 9021000128677948
+  appPrivateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCL7fcmcDzerSbkoVfNW0+z2YqJ8v3W97xHfNSSl7WY5CpZKSXsIs2fCyxHeL6h6JgASJqqngi3kjfdD1JDGBeMfmaB3jMOVjgBTOBXuT9Jn50h9f5XZxph/f05uxP7LvALFwL2S1/XFH4/3Wm5y75OWGqwUz6NmzqvEDjPoJRMBoFkjzAejpk28z43KhlhHug2oV6T2XrKi9HF7OzvCKuMln/YtyXlF6D01aovouzUu3eCtSJdfvlVN5AdFTkPZT/hlallEd+AQdZDsdbeAjJIuAO86fbt3OnME/GmsFuz+OwLgQiBK2tf1qIx1TYJhnPzfmsVATgwKczWhkLVYlgNAgMBAAECggEAFJuzbqHRFSqDM+DfQYtVLbO4R6DV6bcKr6ye0ggt4pqX8hGxWBm4FthaaRxLVyUeXcxTmxUzS3XpbFE5WFBQB40GI9JJyq7ACND9qW3K+Fjdl4bXMqAoro3toXb/9lpvV/LHqOZo8xA9l8JQM+Dh4j/7VoSsDcby2Z2WAF4x+RAz8EAPP1+U8bm4/U9iofO6V4bSvP4VO7LLfDXp0E1xElvGWtkd6ylWSBu6382N3Droj0IHGKEUKdhZaI2lHyPFtl8CV3SWTIN04pcib8ld1dkhLwavLHMFGEaKZU1ynZ/rH/+QUAuBWqUo2ULLOIfoCX/3sqMR9Chn3uZImiYUMQKBgQDZDrUm0oAPb5bB1YcSCkAjns8PSeUcjzHhOz7VidMaW4B7zQLz/eSLnKUrt1dBu6HEkLmhLh+BmgrH5iZFKWbPN788Zt5poQM3b2y7GOB/+XcA+NEyaBrEjA+j7Xw9QhPGYCZBafHBq+3muBkXSnn3V9L4sRIJDQ90VHERIbDqSwKBgQClCNQ27oPC7XvRLK/eCLlPRmsFqnn8J9RkNVhQu3tW2LBcWc02WgLF8wfIHDJErAR1rDYcburaADorYvyYG6cakOMII+RgGBA4m7jvByBGOQCIVOp0BYqDKQEn9XfOy16aRESYof+X7ame+oo+fFcN6rVIGL9tU9e4HY54dC3QBwKBgQC2T7osH4ZccLfJmxXWOzHgOVVlXAXKVSPqMB74sMjVTKHAWlPuqAQ8l5fL/jSWC4k2VvDzxo/EBaSkflUKplmqFwLTMvwA8LKI71f+VkjKdLhV4qejlPlWuOWyJJjDwypk5wF61AexSj2KGntIqs+Cxwt2wxOI8qVWak6FuyyjvQKBgATI2L4u9Ar2r5xE22RohFbUB85GPvscfH/bPBA7HzxJU/OZduWYfnQWs6cNijeLdSWkNH1midCAKS+Q0xnl01Zl1O8rezd9+xppCVeEsV7X0Dgjnhh3AKkEy0/JQgvwwXFfgU2bhLl23nAJe3CMUknJADBy5znYMGzaDoNXeuyJAoGAZsT8V8VunE4HbpP6fntkE3iGh8cpfqJuMRTgZyq9xbkxRcoxThewZRJmTcHKFDe4pg9z5E7BuBmvLAIwxQlVHS1VhXYb8+2hzGp/z1+k0sAwUwefCDCrL2F2GDxzXte/VzMRXK69VUjRfTgOsMWTpQdXn1VI3BIRF87Qtkeh/Ys=
+  alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw5fHPlMLwP47SMU44ttAYf4vDlN23rwG2VDFLDUOvqQ9L8pyOEoMOivW2Wo5LrHFveXMcGM/9bSkspawxc9Zm4YS5fyiFCReU6OSyeBVmSEK2gu7bubDzPs5bv5H2/7L0wgaSy2DnCPMXw8eZysT/ouv1XWW298tBPMIhWrnJPbp8p6hQBWqD56Z+a4ne5yBGeLC3x+FTggS9SUrDu9AZL6kXINHCHg8Gy1I9lYn77HHdI+nTn51txRsZs94yZGjrb5YE38WauF6cDtgW6zfFOwpXtkcodhVl/2s0MmHAfHnNapLZywJs+GDJ5C4O/X1x9ek57hIk2dT0JJB991LeQIDAQAB
+  notifyUrl: http://4r6hsv.natappfree.cc/alipay/notify

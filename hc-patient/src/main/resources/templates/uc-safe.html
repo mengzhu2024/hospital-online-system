@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>账号安全</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="/css/css/iconfont/iconfont.css" rel="stylesheet"/>
+    <link href="/css/css/common.css" rel="stylesheet"/>
+    <link href="/css/css/uc.css" rel="stylesheet"/>
+    <link href="/layui/css/layui.css" rel="stylesheet"/>
+</head>
+<body>
+    <!--头部-->
+    <th:block th:include="header"/>
+    <!--<div class="uc-header-bg">
+        <div class="uc-header wrapper">
+            <a class="logo" href="index.html"><img src="img/logo2.png" alt="" /></a>
+            <div class="back-home"><a href="">返回商城首页</a></div>
+            <ul class="uc-nav">
+                <li><a href="">首页</a></li>
+                <li class="toggle">
+                    <span class="label">账户设置<i class="iconfont"></i></span>
+                    <div class="toggle-cont">
+                        <a href="">个人信息</a>
+                        <a href="">安全设置</a>
+                        <a href="">收货地址</a>
+                    </div>
+                </li>
+                <li><a href="">消息中心</a></li>
+            </ul>
+            <div class="schbox">
+                <form action="">
+                    <input class="search-txt" type="text" />
+                    <button class="search-btn">搜索</button>
+                    <div class="suggest-box">
+                        <div class="item" data-title="上衣 短款 短袖">上衣 短款 短袖<div class="tags"><span>雪纺</span><span>蕾丝</span><span>一字领</span></div></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="wrapper uc-router">
+        <ul>
+            <li>首页</li>
+            <li><span class="divider"></span></li>
+            <li><span>个人中心</span></li>
+        </ul>
+    </div>
+
+    <div class="wrapper">
+        <div class="uc-main clearfix">
+            <th:block th:include="uc-aside"/>
+            <div class="uc-content">
+                <div class="uc-panel">
+                    <div class="uc-bigtit bd-b">账号安全</div>
+                    <div class="uc-panel-bd">
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--脚部-->
+    <div class="fatfooter">
+
+    </div>
+    <!--脚部-->
+</body>
+<script type="text/html" id="template1">
+    <div class="safe-list">
+        <div class="list-item">
+            <div id="changePass" href="" class="edit ui-btn-low ui-btn-hollow uc-btn-md">修改</div>
+            <div class="cont">
+                <img src="/img/uc/pwd.jpg" class="ico" />
+                <div class="tit">帐号密码</div>
+                <div class="desc">用于保护帐号信息和登录安全</div>
+            </div>
+        </div>
+        <!--<div class="list-item">
+            <a href="" class="edit ui-btn-low ui-btn-hollow uc-btn-md">修改</a>
+            <div class="cont">
+                <img src="/img/uc/mail.jpg" class="ico" />
+                <div class="tit">安全邮箱<span class="safe-status"><i class="iconfont icon-warn text-danger"></i>未绑定</span></div>
+                <div class="desc">安全邮箱可以用于登录帐号，重置密码或其他安全验证</div>
+            </div>
+        </div>
+        <div class="list-item">
+            <a href="" class="edit ui-btn-low ui-btn-hollow uc-btn-md">修改</a>
+            <div class="cont">
+                <img src="/img/uc/phone.jpg" class="ico" />
+                <div class="tit">安全手机<span class="safe-status"><i class="iconfont icon-yanzheng text-success"></i>已绑定</span></div>
+                <div class="desc">安全手机将可用于登录帐号和重置密码，建议立即设置</div>
+            </div>
+        </div>
+        <div class="list-item">
+            <a href="" class="edit ui-btn-low ui-btn-hollow uc-btn-md">修改</a>
+            <div class="cont">
+                <img src="/img/uc/safe.jpg" class="ico" />
+                <div class="tit">密保问题<span class="safe-status"><i class="iconfont icon-yanzheng text-success"></i>已设置</span></div>
+                <div class="desc">密保问题用于安全验证，建议立即设置</div>
+            </div>
+        </div>-->
+    </div>
+</script>
+<script type="text/html" id="template2">
+    <div class="col-userinfo">
+        <form class="layui-form" lay-filter="password">
+            <div class="control-group">
+                <div class="hd">旧密码：</div>
+                <div class="bd"><input class="ui-txtin" type="password" name="oldPassword"/></div>
+            </div>
+            <div class="control-group">
+                <div class="hd">新密码：</div>
+                <div class="bd"><input class="ui-txtin" type="password" name="newPassword"/></div>
+            </div>
+            <div class="control-group">
+                <div class="hd">新密码：</div>
+                <div class="bd"><input class="ui-txtin" type="password" name="rePassword"/></div>
+            </div>
+        </form>
+        <div class="control-submit">
+            <input id="confirm" class="ui-btn-theme submit" type="submit" value="确认" />
+            <input id="cancel" class="ui-btn-theme submit" type="submit" value="取消" />
+        </div>
+    </div>
+</script>
+<script src="/js/js/jquery.js"></script>
+<link rel="stylesheet" href="/js/js/icheck/style.css"/>
+<script src="/js/js/icheck/icheck.min.js"></script>
+<script src="/js/js/laydate/laydate.js"></script>
+<script src="/js/js/global.js"></script>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use(['layer','laytpl','form'], function () {
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var laytpl = layui.laytpl;
+        var form = layui.form;
+
+        var a = function () {
+            $(".uc-panel-bd").html($("#template1").html());
+
+            $("#changePass").on("click", function () {
+                $(".uc-panel-bd").html($("#template2").html());
+                $("#confirm").on("click", function () {
+                    var data = form.val("password")
+                    console.log(data)
+                    var pattern = /^[0-9a-zA-Z_]{5,20}$/;
+                    if (!data.oldPassword) {
+                        layer.msg("旧密码为空");
+                        return false;
+                    }
+                    if (!pattern.test(data.newPassword)) {
+                        layer.msg("新密码格式不正确");
+                        return false;
+                    }
+                    if (data.newPassword != data.rePassword) {
+                        layer.msg("新密码输入不一致");
+                        return false;
+                    } else {
+                        $.post("/patient/password", data, function (result) {
+                            if (result.code == 0) {
+                                layer.msg("修改成功",function (){
+                                    $("#cancel").click();
+                                });
+                            }else {
+                                layer.msg(result.msg);
+                                return false;
+                            }
+                        });
+                    }
+                });
+
+                $("#cancel").on("click", function () {
+                    a();
+                });
+            });
+        };
+        a();
+    });
+</script>
+</html>

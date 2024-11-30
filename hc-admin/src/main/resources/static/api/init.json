@@ -1,0 +1,93 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "/home"
+  },
+  "logoInfo": {
+    "title": "医疗服务系统",
+    "image": "images/logo1.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "管理员管理",
+          "href": "/user/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "科室管理",
+          "href": "/department/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "医生管理",
+          "href": "/doctor/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "挂号信息",
+          "href": "/registration/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "挂号管理",
+          "href": "/registration/page2",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "病历信息",
+          "href": "/history/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "药品分类管理",
+          "href": "/category/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "药品管理",
+          "href": "/medicine/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "轮播图管理",
+          "href": "/banner/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "资讯管理",
+          "href": "/notice/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "用户管理",
+          "href": "/patient/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        },
+        {
+          "title": "订单管理",
+          "href": "/order/page",
+          "icon": "fa fa-asterisk",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}

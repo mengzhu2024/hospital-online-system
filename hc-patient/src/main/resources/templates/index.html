@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>在线医疗服务</title>
+<!--    <link rel=" icon" href="/images/logo/huawei.ico" />-->
+    <link rel="stylesheet" href="/icon/font_index/iconfont.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/lib/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <style type="text/css">
+        a {
+            text-decoration: none; /* 去除下划线 */
+            color: inherit; /* 继承父元素的文字颜色 */
+        }
+        .title2{
+            width: 250px;
+            text-align: center;
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 溢出部分隐藏 */
+            text-overflow: ellipsis; /* 超出部分显示省略号 */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 首页框架 -->
+    <div class="react-root">
+        <!-- ---------------------- -->
+        <th:block th:include="header"/>
+        <!-- ---------------------- -->
+        <!-- 轮播图功能 -->
+        <div class="banner">
+            <div class="banner-box">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                         <div class="swiper-slide" th:each="b : ${banners}">
+                             <img th:src="${b.imgPath}">
+                         </div>
+                    </div>
+                    <!-- 如果需要分页器 -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+            <!-- 二级菜单 -->
+            <div id="UL1" class="menu">
+            </div>
+        </div>
+        <!-- 多功能区 -->
+        <div class="kind phone" th:each="medicine : ${medicineMap}">
+            <div class="title">
+                <div>
+                    <span class="tit-left" th:text="${medicine.key}"></span>
+                </div>
+            </div>
+            <div class="content">
+                 <div class="list" th:each="p : ${medicine.value} ">
+                     <a th:href="'/medicine/'+${p.id}">
+                    <div class="shop-img">
+                        <img th:src="${p.imgPath}">
+                    </div>
+                    <div class="text">
+                        <div class="shopname title2">[[${p.name}]]</div>
+                        <div class="pro title2" th:text="${p.description}"></div>
+                        <div class="shop-price">￥[[${p.price}]]</div>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script type="text/html" id="categoryTemplate">
+    {{# layui.each(d,function(index,item){ }}
+    <div class="menulist">
+        <div class="list-1">
+            <div class="text">{{item.name}}</div>
+            <div class="iconfont icon-youjiantou"></div>
+        </div>
+        <div class="list-2">
+            {{# layui.each(item.children,function(i,v){ }}
+            <dl>
+                <a href="/medicine/category/{{v.id}}"><dd>{{v.name}}</dd></a>
+            </dl>
+            {{# })}}
+        </div>
+    </div>
+    {{# })}}
+</script>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use(['layer','laytpl'],function (){
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var laytpl=layui.laytpl;
+        $.get("/category/list",function (categories){
+            laytpl($("#categoryTemplate").html()).render(categories,function (a){
+                $("#UL1").html(a);
+            });
+
+        });
+
+    });
+
+</script>
+
+<script src="/lib/swiper-bundle.min.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/tools.js"></script>
+<script src="/js/index.js"></script>
+<script src="/js/common.js"></script>
+<script>
+    layui.use(['layer'], function () {
+
+    });
+</script>

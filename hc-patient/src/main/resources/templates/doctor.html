@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>医生信息</title>
+    <link rel="stylesheet" href="/icon/font_index/iconfont.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/commodpage.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+
+</head>
+
+<body>
+<!-- 首页框架 -->
+<div class="react-root">
+    <!-- ---------------------- -->
+    <th:block th:include="header"/>
+    <!-- ---------------------- -->
+    <!-- ------------------ -->
+    <!-- ------商品详情页 ----->
+    <div class="shop-pro">
+        <div class="pro-left">
+            <div class="relative">
+                <div class="product-gallery-img">
+                    <img th:src="${doctor.avatar}" style="width: 450px; height: 450px;">
+<!--                    <div class="cloud-zoom"></div>-->
+                </div>
+            </div>
+        </div>
+        <!-- 商品信息 -->
+        <div class="pro-right" style="position: relative">
+            <!-- 商品名称 -->
+            <input id="userId" type="number" style="display: none" th:value="${doctor.id}">
+            <div class="shop-name" th:text="预约挂号"></div>
+            <!-- 商品价格等信息 -->
+            <div class="pro-info">
+
+                <div class="shop-bm">
+                    <div class="zuo">医生姓名</div>
+                    <div th:text="${doctor.name}">****</div>
+                </div>
+                <div class="shop-bm">
+                    <div class="zuo">医生科室</div>
+                    <div th:text="${doctor.dept}">****</div>
+                </div>
+                <div class="shop-bm">
+                    <div class="zuo">挂号费</div>
+                    <div id="shop-id" th:text="${'¥'+doctor.price}">****</div>
+                </div>
+                <div class="lin-700x"></div>
+                <!-- 网络型号 -->
+                <div id="date" class="shop-same">
+                    <!--laytpl渲染日期-->
+                </div>
+                <div id="time" class="shop-same">
+                    <!--<div class="zuo-same">选择时间</div>
+                    <div class="you-same active2">8:00-10:00</div>
+                    <div class="you-same">10:00-12:00</div>
+                    <div class="you-same">13:00-15:00</div>
+                    <div class="you-same">15:00-17:00</div>-->
+                </div>
+                <!-- 横线 -->
+                <div class="lin-700x"></div>
+            </div>
+
+
+            <div class="function">
+                <div class="addcart" style="position: absolute; top: 404px">预约</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+<script id="dateTemplate" type="text/html">
+    <div class="zuo-same">选择日期</div>
+    {{# layui.each(d,function(index,item){ }}
+    <div class="you-same {{index == 0 ? 'active2' : ''}}">{{item}}</div>
+    {{# })}}
+</script>
+<script id="timeTemplate" type="text/html">
+    <div class="zuo-same">选择时间</div>
+    {{# layui.each(d,function(index,item){ }}
+    <div class="you-same {{index == 0 ? 'active2' : ''}}">{{item}}</div>
+    {{# })}}
+</script>
+<script src="/js/jquery.js"></script>
+<script src="/js/tools.js"></script>
+<script src="/js/commodpage.js"></script>
+<script src="/layui/layui.js"></script>
+<script th:inline="javascript">
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var laytpl=layui.laytpl;
+
+        /*function getFutureDates(numDays) {
+            var dates = [];
+            var currentDate = new Date();
+
+            for (var i = 0; i < numDays; i++) {
+                var futureDate = new Date();
+                futureDate.setDate(currentDate.getDate() + i);
+                dates.push(futureDate.toISOString().slice(0, 10)); // 将日期转换为字符串并添加到数组中
+            }
+
+            return dates;
+        }
+
+        var futureDates = getFutureDates(5); // 获取未来五天的日期集合*/
+
+        $.get("/schedule/dates", {uid:$("#userId").val()}, function (dates) {
+
+            laytpl($("#dateTemplate").html()).render(dates,function (a){
+                $("#date").html(a);
+            });
+
+            $(".pro-right .you-same").on("click", function () {
+                $(this).addClass("active2").siblings().removeClass("active2")
+            })
+        })
+
+
+        $.get("/schedule/times", {uid:$("#userId").val()}, function (times) {
+
+            laytpl($("#timeTemplate").html()).render(times,function (a){
+                $("#time").html(a);
+            });
+
+            $(".pro-right .you-same").on("click", function () {
+                $(this).addClass("active2").siblings().removeClass("active2")
+            })
+        })
+
+
+
+        $(".addcart").on("click", function () {
+            var data = {}
+            data.userId = $("#userId").val();
+            data.patientId = $("#currentId").val();
+            data.date = $("#date .active2").html();
+            data.time = $("#time .active2").html();
+            $.post("/registration/save", data, function (vo) {
+                if (vo.code == 0) {
+                    layer.msg("预约成功");
+                } else {
+                    layer.msg(vo.msg);
+                }
+            })
+        });
+
+
+
+    });
+</script>

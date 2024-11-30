@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.hc.common.mapper.DoctorInfoMapper">
+    <update id="doDelete">
+        update user set status = '-1' where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="list" resultType="com.wk.hc.common.vo.DoctorVO">
+        select *,department.name dept from user
+            inner join doctor_info on user.id = doctor_info.user_id
+            inner join department on doctor_info.dept_id = department.id
+        <where>
+            role = "医生"
+            <if test="username != null and username != ''">
+                and instr(username,#{username})>0
+            </if>
+            <if test="name != null and name != ''">
+                and instr(user.name,#{name})>0
+            </if>
+            <choose>
+                <when test="status == '0'">and status = '0'</when>
+                <when test="status == '1'">and status = '1'</when>
+                <when test="status == '-1'">and status = '-1'</when>
+                <otherwise>and status in ('0','1')</otherwise>
+            </choose>
+        </where>
+    </select>
+    <select id="getIndoByid" resultType="com.wk.hc.common.vo.DoctorVO">
+        select *,department.name dept from user
+        inner join doctor_info on user.id = doctor_info.user_id
+        inner join department on doctor_info.dept_id = department.id
+        where user.id = #{id}
+    </select>
+    <select id="listByDept" resultType="com.wk.hc.common.vo.DoctorVO" parameterType="java.lang.Integer">
+        select *,department.name dept from user
+        inner join doctor_info on user.id = doctor_info.user_id
+        inner join department on doctor_info.dept_id = department.id
+        <where>
+          role = "医生"
+          and dept_id = #{username}
+          and status = '0'
+          and user.id in (
+            select user_id
+            from schedule
+            where end_date >= CURDATE()
+            )
+        </where>
+    </select>
+    <select id="dept" resultType="com.wk.hc.common.entity.User" parameterType="java.lang.String">
+        select user.id,user.name,user.username
+        from user
+                 INNER JOIN doctor_info on user.id = doctor_info.user_id
+        where doctor_info.dept_id = #{deptId}
+    </select>
+</mapper>

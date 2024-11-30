@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>千锋教育</title>
+</head>
+
+<body>
+</body>
+
+</html>
+
+<script src="../js/jquery.js"></script>
+<script>
+	$(function () {
+		var latlon = null;
+		//ajax获取用户所在经纬度
+		$.ajax({
+			url: "http://api.map.baidu.com/location/ip?ak=bFNYmleHunu49WxpIlCN8QxTpzs93c8V&coor=bd09ll",
+			type: "POST",
+			dataType: "jsonp",
+			success: function (data) {
+				latlon = data.content.point.y + "," + data.content.point.x;
+				//ajax根据经纬度获取省市区
+				$.ajax({
+					type: "POST",
+					dataType: "jsonp",
+					url: 'http://api.map.baidu.com/geocoder/v2/?ak=C93b5178d7a8ebdb830b9b557abce78b&callback=renderReverse&location=' + latlon + '&output=json&pois=0',
+					success: function (json) {
+						if (json.status == 0) {
+							console.log(json.result.addressComponent.province + "-" + json.result.addressComponent.city + "-" + json.result.addressComponent.district);
+						}
+					}
+				});
+			}
+		});
+	})
+</script>

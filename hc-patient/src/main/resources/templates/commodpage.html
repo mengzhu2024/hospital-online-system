@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>详情</title>
+    <link rel="stylesheet" href="/icon/font_index/iconfont.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/commodpage.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+
+</head>
+
+<body>
+<!-- 首页框架 -->
+<div class="react-root">
+    <!-- ---------------------- -->
+    <th:block th:include="header"/>
+    <!-- ---------------------- -->
+    <!-- ------------------ -->
+    <!-- ------商品详情页 ----->
+    <div class="shop-pro">
+        <div class="pro-left">
+            <div class="relative">
+                <div class="product-gallery-img">
+<!--                                             <img src="/images/imagedata/00101-1.jpg">-->
+                    <img th:src="${medicine.imgPath}" style="width: 450px; height: 450px;">
+<!--                    <div class="cloud-zoom"></div>-->
+                </div>
+                <!-- 此处后端传入背景图 -->
+<!--                <div class="product-magnifier"></div>-->
+            </div>
+            <!--<div class="product-gallery-nav">
+                <li th:each="a,i : ${atts}" th:class="${i.index == 0} ? 'active' : ''"><img th:src="${a.filePath}"></li>
+            </div>-->
+        </div>
+        <!-- 商品信息 -->
+        <div class="pro-right" style="position: relative">
+            <!-- 商品名称 -->
+            <div class="shop-name" th:text="${medicine.name}"></div>
+            <!-- 商品价格等信息 -->
+            <div class="pro-info">
+                <div class="pro-price">
+                    <div class="jiage">&ensp;价&ensp;&ensp;&ensp;&ensp;格</div>
+                    <span>￥</span>
+                    <div class="shop-price" th:text="${medicine.price}">****</div>
+                </div>
+                <!-- 商品编码 -->
+                <div class="shop-bm">
+                    <div class="zuo">&ensp;药品编码</div>
+                    <div id="shop-id" th:text="${medicine.code}">****</div>
+                </div>
+                <div class="shop-bm">
+                    <div class="zuo">&ensp;药品功效</div>
+                    <div th:text="${medicine.description}">****</div>
+                </div>
+            </div>
+            <!-- 横线 -->
+            <div class="lin-700x"></div>
+
+
+            <!-- 横线 -->
+            <div class="lin-700x"></div>
+            <!-- 添加购物车功能 -->
+            <div class="function" style="position: absolute; top: 404px">
+                <div class="number">
+                    <div id="num">1</div>
+                    <section>
+                        <div id="addnum" class="ygc">+</div>
+                        <div id="minnum" class="ygc">-</div>
+                    </section>
+                </div>
+                <div class="addcart">加入购物车</div>
+            </div>
+        </div>
+    </div>
+    <!-- --------加入购物车弹窗----->
+    <!--<div class="towhere">
+        <div class="tishi">
+            <img width="30px" src="/images/counter/success_icon.png">
+            <span class="shopname">****</span><span>成功加入购物车</span>
+        </div>
+        <div class="tiaozhuan">
+            <div class="btn addcart">再逛逛</div>
+            <div class="btn ordernow">去结算</div>
+        </div>
+    </div>-->
+    <!-- ----------------------- -->
+    <!--<div class="xinxi">
+        <p class="active">商品详情</p>
+        <p>规格参数</p>
+        <p>包装与售后</p>
+        <p>用户评价(3400+)</p>
+    </div>-->
+    <!-- ---背景宣传图片---- -->
+    <!--<div class="shop-data">
+        <img src="/images/logo/logo_app.png">
+        <img src="/images/logo/logo_app.png">
+        <img src="/images/logo/logo_app.png">
+        <img src="/images/logo/logo_app.png">
+    </div>-->
+    <!-- -------商品评论---------- -->
+    <div class="view-bg">
+        <div class="shopview">
+            <div>您好，小艺为你服务！请简单发表您的评论</div>
+            <textarea id="content"></textarea>
+            <section class="fasong">发表评论</section>
+        </div>
+        <div class="viewcontent">
+            <!-- <ul>
+                <li>
+                    <div><span>用户名：</span>
+                        <p class="vipname">彦祖</p>
+                    </div>
+                    <div><span>评论内容：</span>
+                        <p class="content">哈哈哈哈哈</p>
+                    </div>
+                </li>
+                <li><div><span>发表于：</span>
+                    <p class="time">2018/03/03</p></div>
+                </li>
+            </ul> -->
+        </div>
+    </div>
+</div>
+<!-- ---------------------- -->
+<!-- 商品服务 -->
+<!--<th:block th:include="footer"/>-->
+</div>
+</body>
+
+</html>
+<script src="/js/jquery.js"></script>
+<script src="/js/tools.js"></script>
+<script src="/js/commodpage.js"></script>
+<script src="/layui/layui.js"></script>
+<script th:inline="javascript">
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        var $ = layui.jquery;
+
+        $(".addcart").on("click", function () {
+            var data = {};
+            data.medicineId = [[${medicine.id}]];
+            data.amount = $("#num").html();
+            $.post("/cart/save", data, function () {
+                layer.msg("添加成功");
+            })
+        });
+
+        $(".product-gallery-nav li:first-child").click();
+    });
+</script>

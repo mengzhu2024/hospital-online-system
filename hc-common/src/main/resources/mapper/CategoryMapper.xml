@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.hc.common.mapper.CategoryMapper">
+
+    <resultMap id="categoryTree" type="com.wk.hc.common.vo.CategoryVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="imgPath" column="img_path"/>
+        <result property="sequence" column="sequence"/>
+        <result property="status" column="status"/>
+        <collection property="children" ofType="com.wk.hc.common.vo.CategoryVO">
+            <result property="id" column="bid"/>
+            <result property="name" column="bname"/>
+            <result property="parentId" column="bparent_id"/>
+            <result property="imgPath" column="bimg_path"/>
+            <result property="sequence" column="bsequence"/>
+            <result property="status" column="bstatus"/>
+            <collection property="children" ofType="com.wk.hc.common.vo.CategoryVO">
+                <result property="id" column="cid"/>
+                <result property="name" column="cname"/>
+                <result property="parentId" column="cparent_id"/>
+                <result property="imgPath" column="cimg_path"/>
+                <result property="sequence" column="csequence"/>
+                <result property="status" column="cstatus"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <update id="updateStatus">
+        update category set status = #{status}
+        where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <select id="tree" resultMap="categoryTree">
+        SELECT category.*,b.id bid,b.`name` bname,b.parent_id bparent_id,b.img_path bimg_path,b.sequence bsequence,b.`status` bstatus,c.id cid,c.`name` cname,c.parent_id cparent_id,c.img_path cimg_path,c.sequence csequence,c.`status` cstatus
+        from category
+                 LEFT JOIN category b on b.parent_id = category.id
+                 LEFT JOIN category c on c.parent_id = b.id
+        where category.parent_id = 0
+    </select>
+
+    <resultMap id="indexResulMap" type="com.wk.hc.common.vo.IndexCategoryVO">
+        <result property="name" column="name"/>
+        <collection property="children" ofType="com.wk.hc.common.vo.IndexCategoryVO">
+            <result property="id" column="id"/>
+            <result property="name" column="sName"/>
+            <result property="imgPath" column="img_path"/>
+        </collection>
+    </resultMap>
+    <select id="indexList" resultMap="indexResulMap">
+        select category.name,s.id,s.name 'sName',s.img_path
+        from category
+        left join category s on s.parent_id = category.id
+        where category.parent_id = 0 and category.status = '0' and s.status = '0'
+        order by category.sequence,s.sequence desc
+    </select>
+
+</mapper>

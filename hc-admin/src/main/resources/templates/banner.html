@@ -1,0 +1,234 @@
+<html>
+<head>
+    <title>轮播图管理</title>
+    <link href="/layui/css/layui.css" rel="stylesheet"/>
+
+    <style type="text/css">
+        #baaanner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+<form lay-filter="form2" class="layui-form" action="">
+    <div class="layui-form-item" style="margin-top: 15px">
+        <div class="layui-inline">
+            <input id="searchBtn" type="button" value="查询" class="layui-btn layui-btn-warm layui-btn-radius">
+            <input id="addBtn" type="button" value="新增" class="layui-btn layui-btn-normal layui-btn-radius">
+        </div>
+    </div>
+</form>
+
+<table id="pTable"></table>
+
+<script id="template1" type="text/html">
+    <form class="layui-form" action="" lay-filter="form1">
+        <div class="layui-form-item" style="margin-top: 15px">
+            <div class="layui-inline">
+                <label class="layui-form-label">链接</label>
+                <div class="layui-input-inline">
+                    <input type="hidden" name="id">
+                    <input id="href" type="text" name="href" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div id="passwordDIV" class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="sequence" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-input-inline">
+                    <img id="bannerImg" style="width:100px; height: 60px; object-fit: cover;">
+                    <input id="bannerInput" type="hidden" name="imgPath" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="reset" value="重置" class="layui-btn layui-btn-primary">
+                <input id="saveBtn" type="button" value="保存" class="layui-btn">
+            </div>
+        </div>
+    </form>
+</script>
+
+
+<script id="template2" type="text/html">
+    <input lay-event="edit" type="button" value="编辑" class="layui-btn layui-btn-radius"/>
+    <input lay-event="delete" type="button" value="删除" class="layui-btn layui-btn-danger layui-btn-radius"/>
+</script>
+
+<script type="text/html" id="template3">
+    <input type="checkbox" name="status" value="{{= d.id }}" title="开|关" lay-skin="switch"
+           lay-filter="status"
+           {{d.status== 0 ? "checked" : "" }}>
+</script>
+
+<script type="text/html" id="template4">
+    <img src="{{d.imgPath}}" style="width:100px; height: 60px; object-fit: cover;">
+</script>
+
+<script src="/layui/layui.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
+<script th:inline="none">
+    //告诉浏览器加载layui中的哪些组件
+    //加载完小组件就执行function
+    layui.use(['table', 'layer', 'form', 'upload', 'carousel'], function () {
+        // console.log("123");
+
+        //第一步,先对家啊在的组件起名字
+        var table = layui.table;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var upload = layui.upload;
+        var carousel = layui.carousel;
+
+        //给查询按钮绑定事件
+        $("#searchBtn").on("click", function () {
+            //用js发起一个请求去要一些数据回来,要到之后把数据插入到table中
+            //通过table组件渲染表格
+
+            table.render({
+                elem: "#pTable",
+                url: "/banner/list",
+                cols: [[
+                    {title: "序号", type: "numbers"},
+                    {title: "图片", field: "imgPath", templet: '#template4'},
+                    {title: "链接", field: "href"},
+                    {title: "排序", field: "sequence"},
+                    {title: "状态", templet: "#template3"},
+                    {title: "操作", templet: "#template2"}
+                ]],
+                lineStyle: "height: 75px;"
+            });
+
+        }).click();//自动查询一次
+
+
+        form.on('switch(status)', function (obj) {
+            console.log(obj)
+            var id = this.value;
+            var name = this.name;
+            var status = obj.elem.checked ? "0" : "1";
+            $.post("/banner/updateStatus", {id: id, status: status}, function () {
+                layer.tips(obj.elem.checked ? "开启" : "关闭", obj.othis);
+            });
+
+        });
+
+        //给新增按钮绑定事件
+        $("#addBtn").on("click", function () {
+
+            layer.open({
+                title: "新增",
+                type: 1,
+                area: ['400px', '400px'],
+                content: $("#template1").html()
+            });
+
+            //上传图像
+            upload.render({
+                elem: "#bannerImg",
+                url: "/attachment/upload",
+                done: function (res, index, upload) {
+                    if (res.code == 0) {
+                        $("#bannerInput").val(res.data.filePath);
+                        $("#bannerImg").attr("src", res.data.filePath);
+                    }
+                },
+            });
+
+            $("#saveBtn").on("click", function () {
+                var data = form.val("form1");
+                if (!data.imgPath) {
+                    layer.msg("请上传图片")
+                    return false;
+                }
+                $.post("/banner/save", data, function (vo) {
+                    if (vo.code == 0) {
+                        layer.closeAll();
+                        layer.msg("添加成功");
+                        $("#searchBtn").click();
+                    }
+                });
+
+            });
+        });
+
+        //给表格操作绑事件
+        table.on("tool", function (obj) {
+            var event = obj.event;
+            var data = obj.data;//当前点击的这一行的数据
+            /*console.log(event)
+            console.log(data.id)*/
+
+            if (event === "edit") {//说明点了编辑
+                //去后台获取数据,取成功了再弹
+                $.get("/banner/info/" + data.id, function (banner) {
+                    layer.open({
+                        title: "编辑用户",
+                        type: 1,
+                        area: ['400px', '400px'],
+                        content: $("#template1").html()
+                    });
+                    //把user对象放进form表单中
+                    form.val("form1", banner)
+                    $("#bannerImg").attr("src", banner.imgPath)
+
+                    $("#saveBtn").on("click", function () {
+                        var data = form.val("form1");
+                        $.post("/banner/save", data, function () {
+                            layer.closeAll();
+                            layer.msg("保存成功")
+                            $("#searchBtn").click();
+                        })
+                    });
+                    upload.render({
+                        elem: "#bannerImg",
+                        url: "/attachment/upload",
+                        done: function (res, index, upload) {
+                            if (res.code == 0) {
+                                $("#bannerInput").val(res.data.filePath);
+                                $("#bannerImg").attr("src", res.data.filePath);
+                            }
+                        },
+                    });
+                });
+
+
+            }
+            if (event === "delete") {//说明点了删除
+                //点确定执行第二个参数 点取消执行第三个参数
+                layer.confirm("请确认是否删除", function () {
+                    $.post("/banner/delete/" + data.id, function (result) {
+
+                        if (result.code == 0) {
+                            layer.closeAll();
+                            layer.msg("删除成功");
+                            $("#searchBtn").click();
+                        }
+                    });
+                }, function () {
+                });
+            }
+
+        });
+
+
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>收银台</title>
+    <link rel="stylesheet" href="/icon/font_index/iconfont.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/counter.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+
+<body>
+    <div class="playinfo">
+        <h2>
+            <img src="/images/counter/success_icon.png">
+            <span>订单提交成功，只差付款了~</span>
+        </h2>
+        <div>订单金额：<span id="money" style="color: red; font-size: 18px" th:text="'￥' + ${order.totalPrice}"></span></div>
+    </div>
+    <div class="playtitle">
+        <p class="active1">平台支付</p>
+        <p></p>
+    </div>
+    <div class="playkind">
+        <p class="active2" type="支付宝"><img src="/images/counter/zfb.png"><i></i></p>
+        <p type="花呗"><img src="/images/counter/hb.png"><i></i></p>
+        <p type="微信"><img src="/images/counter/wx.png"><i></i></p>
+        <p type="银联"><img src="/images/counter/yl.png"><i></i></p>
+        <div class="erweima"><img src="/images/counter/qrcode.png"></div>
+    </div>
+    <div class="pay">
+        <div class="button">确认支付</div>
+    </div>
+</body>
+
+</html>
+<script src="/js/jquery.js"></script>
+<script src="/js/tools.js"></script>
+<script src="/js/counter.js"></script>
+<script th:inline="javascript">
+    $(".button").on("click", function () {
+        let payType = $(".playkind").children('p[class=active2]').attr('type')
+        if (!payType) {
+            alert('请选择支付方式')
+            return
+        }
+        window.location.href = "/order/pay?id="+[[${order.id}]]+"&payType="+payType;
+    });
+</script>

@@ -1,0 +1,108 @@
+<style>
+    a {
+        text-decoration: none; /* 去除下划线 */
+        color: inherit; /* 继承父元素的文字颜色 */
+    }
+</style>
+<link rel="stylesheet" href="/css/reset.css">
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/lib/swiper-bundle.min.css">
+<div class="header-top-bg">
+    <div class="header-top">
+        <!-- 头部左导航 -->
+        <span class="header-top-right">
+                    <div class="login-before">
+                        <a href="/login" th:if="${session.currentUser != null}"><div class="toLogin sl"><input type="number" id="currentId" style="display: none" th:value="${session.currentUser.id}"><a href="/uc/account" th:text="${session.currentUser.username}"></a></div></a>
+                        <div id="logout" class="toRegist padd" th:if="${session.currentUser != null}"><a>退出</a></div>
+                        <a href="/login" th:if="${session.currentUser == null}"><div class="toLogin sl"><a href="/login">请登录</a></div></a>
+                        <div class="toRegist padd" th:if="${session.currentUser == null}"><a href="/register/page">注册</a></div>
+                    </div>
+                    <div class="line">
+                        <p><a href="/uc/account">个人信息</a></p>
+                    </div>
+                    <div class="line">
+                        <p><a href="/uc/safe">账户安全</a></p>
+                    </div>
+                    <div class="line">
+                        <p><a href="/uc/address">收货地址</a></p>
+                    </div>
+                    <div class="line">
+                        <p><a href="/uc/order">我的订单</a></p>
+                    </div>
+                    <div class="line">
+                        <p><a href="/uc/registration">我的预约</a></p>
+                    </div>
+                    <div class="line">
+                        <p><a href="/uc/history">我的病历</a></p>
+                    </div>
+                </span>
+        <div class="shop-enter">
+            <a href="/cart/page">
+            <div class="shoppinp-card">
+                <span class="iconfont icon-maijiagouwuche"></span>
+                <div style="font-size:12px;">&nbsp;&nbsp;购物车</div>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 头部导航栏二 -->
+<div class="header-buttom-bg">
+    <div class="header1">
+        <div class="header-buttom">
+            <ul>
+                <li><a href="/">首页</a></li>
+                <li><a href="/notice/page">健康资讯</a></li>
+                <li><a href="/registration/page">预约挂号</a></li>
+            </ul>
+
+            <div class="header-sousuo">
+                <div class="put">
+                    <div class="sou">
+                        <svg viewBox="0 0 1024 1024" width="16" height="16">
+                            <path
+                                    d="M921.3 874L738.1 690.8c51.3-62.6 82.1-142.5 82.1-229.6 0-200.1-162.8-363-363-363-200.1 0-363 162.8-363 363s162.8 363 363 363c87 0 167-30.8 229.6-82.1L870 925.3c7.1 7.1 16.4 10.6 25.7 10.6s18.6-3.5 25.7-10.6c14.1-14.2 14.1-37.2-0.1-51.3zM166.8 461.2c0-160.1 130.3-290.4 290.4-290.4s290.4 130.3 290.4 290.4-130.3 290.4-290.4 290.4-290.4-130.3-290.4-290.4z"
+                                    p-id="2837"></path>
+                        </svg>
+                    </div>
+                    <input class="inputsousuo" type="text" placeholder="搜索药品">
+                    <div class="sou quxiao">
+                        <svg width="16" height="16" viewBox="0 0 1024 1024">
+                            <path
+                                    d="M843.869 180.131c12.497 12.497 12.497 32.758 0 45.255l-618.483 618.483c-12.497 12.497-32.758 12.497-45.255 0s-12.497-32.758 0-45.255l286.621-286.637-286.621-286.591c-12.497-12.497-12.497-32.758 0-45.255s32.758-12.497 45.255 0l286.614 286.599 286.614-286.599c12.497-12.497 32.758-12.497 45.255 0zM843.869 798.614c12.497 12.497 12.497 32.758 0 45.255s-32.758 12.497-45.255 0l-256.437-256.452 45.247-45.247 256.444 256.444z"
+                                    fill="#000"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/jquery.js"></script>
+<script src="/js/tools.js"></script>
+<script src="/layui/layui.js"></script>
+<script th:inline="javascript">
+    console.log([[${session.currentUser}]])
+    layui.use(['layer'],function (){
+        var layer = layui.layer;
+        var $ = layui.jquery;
+
+        $("#logout").on("click", function () {
+            $.get("/logout", function (result) {
+                location.reload();
+            });
+        });
+
+        $('.inputsousuo').on('keydown', function(event) {
+            if($(".inputsousuo").val()){
+                if (event.keyCode === 13) {
+                    window.location.href = "/medicine/search?name=" + $(".inputsousuo").val();
+                }
+            }
+        });
+    })
+</script>

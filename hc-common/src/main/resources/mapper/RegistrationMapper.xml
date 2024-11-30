@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.hc.common.mapper.RegistrationMapper">
+
+    <select id="listAll" resultType="com.wk.hc.common.vo.RegistrationVO">
+        select registration.*,department.name dept,user.name doctorName,patient.name patientName
+        from registration
+        inner join user on registration.user_id = user.id
+        inner join doctor_info on user.id = doctor_info.user_id
+        inner join department on doctor_info.dept_id = department.id
+        inner join patient on registration.patient_id = patient.id
+        where registration.status = #{status}
+        <if test="name != null and name != ''">
+            and instr(patient.name,#{name})>0
+        </if>
+        order by date desc,time
+    </select>
+    <select id="listByDoctor" resultType="com.wk.hc.common.vo.RegistrationVO">
+        select registration.*,department.name dept,user.name doctorName,patient.name patientName,user.avatar doctorAvatar,patient.avatar patientAvatar
+        from registration
+                 inner join user on registration.user_id = user.id
+                 inner join doctor_info on user.id = doctor_info.user_id
+                 inner join department on doctor_info.dept_id = department.id
+                 inner join patient on registration.patient_id = patient.id
+        where registration.user_id = #{id}
+        <if test="name != null and name != ''">
+            and instr(patient.name,#{name})>0
+        </if>
+        <if test="status == '已预约'">
+            and registration.status = #{status} and registration.date = CURDATE()
+        </if>
+        <if test="status == '已出诊'">
+            and registration.status = #{status}
+        </if>
+        order by date desc,time
+    </select>
+    <select id="listByPatient" resultType="com.wk.hc.common.vo.RegistrationVO">
+        select registration.*,department.name dept,user.name doctorName,patient.name patientName,user.avatar doctorAvatar,patient.avatar patientAvatar
+        from registration
+                 inner join user on registration.user_id = user.id
+                 inner join doctor_info on user.id = doctor_info.user_id
+                 inner join department on doctor_info.dept_id = department.id
+                 inner join patient on registration.patient_id = patient.id
+        where registration.patient_id = #{patientId}
+        order by date desc
+    </select>
+</mapper>

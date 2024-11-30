@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.hc.common.mapper.AttachmentMapper">
+
+    <!--<insert id="insert2" useGeneratedKeys="true" keyProperty="id">
+
+    </insert>-->
+    <update id="bind">
+        update attachment
+        set source_id = #{id},source = #{source}
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,297 @@
+/*主体框架布局 */
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.mouse {
+    cursor: pointer;
+}
+
+.login-frame {
+    width: 100%;
+    height: 100%;
+}
+
+.header-bg {
+    width: 100%;
+    height: 48px;
+    background-color: #f1f1f1;
+}
+
+.header {
+    margin: 0 auto;
+    width: 960px;
+    height: 48px;
+
+}
+
+.center {
+    width: 100%;
+    min-height: 200px;
+    height: 100%;
+}
+
+.footer {
+    width: 100%;
+    height: 53px;
+    background-color: rgb(241, 241, 241);
+    text-align: center;
+}
+
+/* 头部区域*/
+.header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.header .logo {
+    width: 107px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.header .line1-y {
+    margin-top: 5px;
+    margin-right: 8px;
+    padding: 0 8px;
+    font-size: 12px;
+    height: 20px;
+    opacity: 0.2;
+}
+
+.header .text {
+    font-size: 16px;
+    color: #191919;
+    font-weight: 700;
+}
+
+/* ---------登录板块---------- */
+/* --------中间登录区域-------- */
+.center1 {
+    text-align: center;
+}
+
+/* ---标题--- */
+.center1 .title1 span {
+    display: block;
+    padding: 100px 0 80px;
+    font-size: 32px;
+}
+
+/* 内容区域 */
+.center1 .login-content {
+    height: 428px;
+    display: flex;
+    justify-content: center;
+
+}
+
+/* 二维码 */
+.center1 .login-content .left {
+    width: 360px;
+    height: 276px;
+}
+
+.center1 .login-content .left .ewm {
+    width: 160px;
+    height: 160px;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #f7f7f7;
+}
+
+.center1 .login-content .left .method {
+    margin-top: 50px;
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+/* 竖线 */
+.center1 .login-content .line2-y {
+    width: 1px;
+    height: 300px;
+    margin: 0 60px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 登录区域 */
+.center1 .login-content .right {
+    width: 360px;
+    height: 428px;
+    /* background-color: darksalmon; */
+}
+
+/* 失败样式--------提示错误 */
+.center1 .login-content .flex-2 {
+    display: flex;
+    align-items: center;
+}
+.center1 .login-content .fail {
+    margin-bottom: 4px;
+    display: none;
+}
+
+.center1 .login-content .fail .erro {
+    padding: 6px;
+    background: url(../images/login/fail.svg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 12px 12px;
+    margin-right: 4px;
+}
+
+.center1 .login-content .fail .redtext {
+    font-size: 12px;
+    color: #fa2a2d;
+}
+/* -----密码眼睛------- */
+.center1 .login-content .userpass{
+    position: relative;
+}
+.center1 .login-content .userpass .eye1{
+   background: url(../images/login/eyeoff.svg);
+}
+.center1 .login-content .userpass .eye2{
+   background: url(../images/login/eyeon.svg);
+   display: none;
+}
+.center1 .login-content .userpass .eye{
+   padding: 12px;
+   cursor: pointer;
+   background-repeat: no-repeat;
+   background-position: 50% 50%;
+   background-size: 24px 24px;
+   position: absolute;
+   right: 16px;
+   top: 12px;
+}
+/* 账号密码 */
+.center1 .login-content .right .put {
+    width: 336px;
+    height: 48px;
+    font-size: 14px;
+    line-height: 14px;
+    background-color: rgb(242, 242, 242);
+    border-radius: 8px;
+    padding: 0 12px;
+}
+
+.center1 .login-content .right .userpass {
+    margin-top: 26px;
+    position: relative;
+}
+
+/* --------7天免登录 */
+.center1 .login-content .right .nologin {
+    padding-top: 13px;
+    /* text-align: left; */
+    font-size: 14px;
+    color: #007dff;
+    display: flex;
+    align-items: center;
+}
+
+.center1 .login-content .right .nologin .login-checkbox {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+}
+
+/* 登录 */
+.center1 .login-content .right .dlu {
+    margin-top: 40px;
+}
+
+.center1 .login-content .right .button {
+    width: 360px;
+    height: 48px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #eba7aa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 注册页面跳转 */
+.center1 .login-content .right .newpage {
+    width: 360px;
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.center1 .login-content .right .newpage div {
+    padding: 0 15px;
+    color: #007dff;
+}
+
+.center1 .login-content .right .newpage div:hover {
+    color: blue;
+}
+
+/* 其他登录方式 */
+.center1 .login-content .right .other {
+    width: 360px;
+    height: 40px;
+    padding: 30px 0 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.center1 .login-content .right .other .same {
+    width: 0px;
+    height: 0px;
+    margin: 0 25px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+/* 划入变样式 */
+.center1 .login-content .right .other .qq {
+    background-image: url(../images/login/qq.svg);
+    background-size: cover;
+}
+
+.center1 .login-content .right .other .qq:hover {
+    background-image: url(../images/login/qq1.svg);
+}
+
+.center1 .login-content .right .other .apply {
+    background-image: url(../images/login/alipay.svg);
+    background-size: cover;
+}
+
+.center1 .login-content .right .other .apply:hover {
+    background-image: url(../images/login/alipay1.svg);
+}
+
+.center1 .login-content .right .other .weixin {
+    background-image: url(../images/login/weixin.svg);
+    background-size: cover;
+}
+
+.center1 .login-content .right .other .weixin:hover {
+    background-image: url(../images/login/weixin1.svg);
+    background-size: cover;
+}
+
+/* --------------------- */
+/* ------底部--------- */
+.footer {
+    padding: 24px 0;
+}
+
+.footer .xieyi {
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+.footer .banquan {
+    font-size: 14px;
+    opacity: 0.3;
+    margin-top: 14px;
+}

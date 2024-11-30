@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.hc.common.mapper.PatientMapper">
+    <update id="updateStatus">
+        update patient set status = #{status}
+        where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <update id="resetPassword">
+        update patient set password = #{password}
+        where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="lista" resultType="com.wk.hc.common.entity.Patient">
+        select * from patient
+        <where>
+            <if test="username!=null and username!=''">
+                and instr(username,#{username})>0
+            </if>
+            <choose>
+                <when test="status==1">
+                    and status = '1'
+                </when>
+                <when test="status==0">
+                    and status = '0'
+                </when>
+                <otherwise>
+                    and status in('0','1')
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

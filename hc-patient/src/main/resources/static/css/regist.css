@@ -1,0 +1,208 @@
+/*主体框架布局 */
+html,body{
+    width: 100%;
+    height: 100%;
+}
+.mouse{
+    cursor: pointer;
+}
+.login-frame{
+    width: 100%;
+    height: 100%;
+}
+.header-bg{
+    width: 100%;
+    height: 48px;
+    background-color: #f1f1f1;
+}
+.header{
+    margin: 0 auto;
+    width: 960px;
+    height: 48px;
+   
+}
+.center{
+    width: 100%;
+    min-height: 650px;
+    height: 100%;
+}
+.footer{
+    width: 100%;
+    height: 53px;
+    background-color: rgb(241,241,241);
+    text-align: center;
+} 
+/* 头部区域*/
+.header{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.header .logo{
+    width: 107px;
+    height: 24px;
+    margin-right: 8px;
+}
+.header .line1-y{
+    margin-top: 5px;
+    margin-right: 8px;
+    padding: 0 8px;
+    font-size: 12px;
+    height: 20px;
+    opacity: 0.2;
+}
+.header .text{
+    font-size: 16px;
+    color: #191919;
+    font-weight: 700;
+}
+/* ------------------------------ */
+/* ---------注册区域------- */
+.center2{
+    display: flex;
+    justify-content: center;
+    
+ }
+.center2 .center-content{
+    /*width: 360px;*/
+    height: 500px;
+    /*margin-top: 35px;*/
+    padding: 48px 176px 65px;
+}
+ /* ---标题--- */
+ .center2 .center-content .title1{
+    margin-bottom: 25px;
+     text-align: center;
+ }
+ .center2 .center-content .title1 h2{
+     font-size: 32px;
+     color: #191919;
+ }
+ .center2 .center-content .title1 .tologin{
+     display: flex;
+     justify-content: center;
+     align-content: start;
+ }
+ .center2 .center-content .title1 span{
+     font-size: 14px;
+     margin-top: 15px;
+ }
+ .center2 .center-content .title1 .login{
+     cursor: pointer;
+     color: #0064cc;
+ }
+ .center2 .center-content .title1 .login:hover{
+     color: blue;
+ }
+ /* 相同样式 */
+ .center2 .center-content .put{
+    width: 408px;
+    height: 48px;
+    background-color: rgb(242, 242, 242);
+    border-radius: 8px;
+    padding: 0 16px;
+}
+ /* 国家地区 */
+ .center2 .center-content .zg{
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+ }
+ .center2 .center-content .zg .area{
+    cursor: pointer;
+ }
+/* --------------------- */
+ /* 账号 */
+ .center2 .center-content .username{
+     position: relative;
+     margin-top: 32px;
+ }
+ .center2 .center-content .flex-1{
+    display: flex;
+    align-items: center;
+}
+ .center2 .center-content .exist{
+    margin-top: 4px;
+    display: none;
+}
+ /* 密码 */
+ .center2 .center-content .userpass{
+    width: 440px;
+     margin-top: 32px;
+ }
+ .center2 .center-content .userpass{
+    width: 440px;
+     margin-top: 32px;
+ }
+  /* -------密码框--眼睛显示隐藏 */
+ .center2 .center-content .userpass .pass{
+     position: relative;
+ }
+ .center2 .center-content .eye1{
+    background: url(../images/login/eyeoff.svg);
+}
+ .center2 .center-content .eye2{
+    background: url(../images/login/eyeon.svg);
+    display: none;
+}
+  .center2 .center-content .eye{
+    padding: 12px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 24px 24px;
+    position: absolute;
+    right: 16px;
+    top: 12px;
+ }
+/* 失败样式--------提示错误 */
+.center2 .center-content .fail1{
+    margin-top: 4px;
+    display: none;
+}
+.center2 .center-content .erro{
+    padding: 6px;
+    background:url(../images/login/fail.svg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 12px 12px;
+    margin-right: 4px;
+}
+.center2 .center-content .redtext {
+    font-size: 12px;
+    color: #fa2a2d;
+}
+
+ /* 注册按钮 */
+ .center2 .center-content .register{
+     width: 440px;
+     height: 48px;
+     margin-top: 24px;
+     display: flex;
+     cursor: pointer;
+     justify-content: center;
+ }
+ .center2 .center-content .register .button{
+     width: 276px;
+     height: 48px; 
+     border-radius: 8px;
+     background-color: rgb(235,167,170);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+/* --------------------- */
+/* ------底部--------- */
+.footer{
+    padding: 24px 0;
+}
+.footer .xieyi{
+    font-size: 14px;
+    opacity: 0.6;
+}
+.footer .banquan{
+       font-size: 14px;
+       opacity: 0.3;
+       margin-top: 14px;
+}

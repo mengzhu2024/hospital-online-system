@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.hc.common.mapper.UserMapper">
+    <update id="doDelete">
+        update user set status = '-1' where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="list" resultType="com.wk.hc.common.entity.User">
+        select * from user
+        <where>
+            role = "管理员"
+            <if test="username != null and username != ''">
+                and instr(username,#{username})>0
+            </if>
+            <if test="name != null and name != ''">
+                and instr(name,#{name})>0
+            </if>
+            <choose>
+                <when test="status == '0'">and status = '0'</when>
+                <when test="status == '1'">and status = '1'</when>
+                <when test="status == '-1'">and status = '-1'</when>
+                <otherwise>and status in ('0','1')</otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

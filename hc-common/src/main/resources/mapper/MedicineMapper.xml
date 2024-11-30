@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.hc.common.mapper.MedicineMapper">
+    <update id="doDelete">
+        update medicine set status = '-1' where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateStatus">
+        update medicine set status = #{status}
+        where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="list" resultType="com.wk.hc.common.vo.MedicineVO">
+        SELECT medicine.*,category.`name` category FROM `medicine`
+        INNER JOIN category ON category.id = medicine.category_id
+        <where>
+            <if test="name!=null and name!=''">
+                and instr(medicine.name,#{name})>0
+            </if>
+            <choose>
+                <when test="status==0">and medicine.status = '0'</when>
+                <when test="status==1">and medicine.status = '1'</when>
+                <otherwise>and medicine.status in('0','1')</otherwise>
+            </choose>
+        </where>
+        order by id desc
+    </select>
+</mapper>

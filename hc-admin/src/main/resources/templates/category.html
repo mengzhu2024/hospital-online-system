@@ -1,0 +1,263 @@
+<html>
+<head>
+    <title>药品分类管理</title>
+    <link href="/layui/css/layui.css" rel="stylesheet"/>
+
+</head>
+<body>
+
+<form lay-filter="form2" class="layui-form" action="">
+    <div class="layui-form-item" style="margin-top: 15px">
+        <div class="layui-inline">
+            <input id="searchBtn" type="button" value="查询" class="layui-btn layui-btn-radius">
+            <input id="addBtn" type="button" value="新增一级分类" class="layui-btn layui-btn-radius">
+        </div>
+    </div>
+</form>
+
+<table id="pTable"></table>
+
+<script id="template1" type="text/html">
+    <form class="layui-form" action="" lay-filter="form1">
+        <div class="layui-form-item" style="margin-top: 15px">
+            <div class="layui-inline">
+                <label class="layui-form-label">分类名称</label>
+                <div class="layui-input-inline">
+                    <input type="hidden" name="id">
+                    <input id="parentId" type="hidden" name="parentId">
+                    <input id="username" type="text" name="name" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div id="passwordDIV" class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="sequence" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-input-inline">
+                    <img id="avatarImg" style="width:100px; height: 60px; object-fit: cover;">
+                    <input id="avatarInput" type="hidden" name="imgPath" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="reset" value="重置" class="layui-btn layui-btn-primary">
+                <input id="saveBtn" type="button" value="保存" class="layui-btn">
+            </div>
+        </div>
+    </form>
+</script>
+
+<script id="template2" type="text/html">
+    {{# if(d.LAY_DATA_INDEX.split("-").length <= 1){}}
+    <input lay-event="add" type="button" value="加下级" class="layui-btn layui-btn-normal layui-btn-radius layui-btn-sm"/>
+    {{# }}}
+    <input lay-event="edit" type="button" value="编辑" class="layui-btn layui-btn-radius layui-btn-sm"/>
+    {{# if(d.children==null || d.children.length==0){}}
+    <input lay-event="delete" type="button" value="删除" class="layui-btn layui-btn-danger layui-btn-radius layui-btn-sm"/>
+    {{# }}}
+</script>
+
+<script type="text/html" id="template3">
+    <input type="checkbox" name="status" value="{{= d.id }}" title="开|关" lay-skin="switch"
+           lay-filter="demo-templet-status"
+           {{d.status == 0 ? "checked" : "" }}>
+</script>
+<script type="text/html" id="template4">
+    {{#if(d.imgPath!=null && d.imgPath.length!=0){}}
+    <img src="{{d.imgPath}}" style="width:100px; height: 60px; object-fit: cover;">
+    {{#}}}
+</script>
+
+<script src="/layui/layui.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
+<script th:inline="none">
+
+    layui.use(['table', 'layer', 'form', 'upload'], function () {
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var treeTable = layui.treeTable;
+        var upload = layui.upload;
+
+
+        //给切换状态绑定事件
+        form.on('switch(demo-templet-status)', function (obj) {
+            console.log(obj.elem);
+            console.log(obj.value);
+            //商品ID
+            console.log(obj.elem.checked);
+            //开关状态
+            $.post("/category/status", {ids: obj.value, status: obj.elem.checked ? 0 : 1}, function () {
+                layer.tips(obj.elem.checked ? "开启" : "关闭", obj.othis);
+            });
+        });
+
+
+        $("#searchBtn").on("click", function () {
+
+            treeTable.render({
+                id:"tree",
+                elem: "#pTable",
+                cols: [[
+                    {title: "序号", type: "numbers"},
+                    {title: "分类名称", field: "name"},
+                    // {title: "图片", field: "imgPath"},
+                    {title: "图片", field: "imgPath", templet: "#template4"},
+                    {title: "排序", field: "sequence"},
+                    // {title: "状态", field: "status"},
+                    {title: "状态", templet: "#template3"},
+                    {title: "操作", templet: "#template2"},
+                ]],
+                url: "/category/tree",
+                lineStyle: "height: 75px;",
+                tree: {
+                    view: {
+                        showIcon: false
+                    }
+                }
+            });
+
+        }).click();
+
+        $("#addBtn").on("click", function () {
+
+            layer.open({
+                title: "新增分类",
+                type: 1,
+                offset:'100px',
+                area: ['400px', '400px'],
+                content: $("#template1").html()
+            });
+
+            upload.render({
+                elem: "#avatarImg",
+                url: "/attachment/upload",
+                done: function (res, index, upload) {
+                    if (res.code == 0) {
+                        $("#avatarInput").val(res.data.filePath);
+                        $("#avatarImg").attr("src", res.data.filePath);
+                    }
+                },
+            });
+
+            $("#saveBtn").on("click", function () {
+                var data = form.val("form1");
+                $.post("/category/save", data, function (result) {
+                    if (result.code == 0) {
+                        layer.closeAll();
+                        layer.msg("添加成功");
+                        $("#searchBtn").click();
+                    }
+                });
+
+            });
+        });
+
+        treeTable.on("tool", function (obj) {
+            var event = obj.event;
+            if (event === "add") {
+                layer.open({
+                    title: "新增分类",
+                    type: 1,
+                    offset:'100px',
+                    area: ['400px', '400px'],
+                    content: $("#template1").html()
+                });
+                console.log(obj.data)
+                $("#parentId").val(obj.data.id);
+                upload.render({
+                    elem: "#avatarImg",
+                    url: "/attachment/upload",
+                    done: function (res, index, upload) {
+                        if (res.code == 0) {
+                            $("#avatarInput").val(res.data.filePath);
+                            $("#avatarImg").attr("src", res.data.filePath);
+                        }
+                    },
+                });
+
+                $("#saveBtn").on("click", function () {
+                    var data = form.val("form1");
+                    $.post("/category/save", data, function (result) {
+                        if (result.code == 0) {
+                            layer.closeAll();
+                            layer.msg("添加成功");
+                            $("#searchBtn").click();
+                        } else {
+                            layer.msg(result.msg);
+                        }
+
+                    });
+
+                });
+            }
+            if (event === "edit") {
+                var data = treeTable.getData('tree'); // 获取第一行的数据
+                // console.log(data);
+                // console.log(obj.data)
+
+                $.get("/category/info/" + obj.data.id, function (category) {
+                    layer.open({
+                        title: "编辑分类",
+                        type: 1,
+                        offset:'100px',
+                        area: ['400px', '400px'],
+                        content: $("#template1").html()
+                    });
+                    //把user对象放进form表单中
+                    form.val("form1", category)
+                    $("#avatarImg").attr("src", category.imgPath)
+                    $("#saveBtn").on("click", function () {
+                        var data = form.val("form1");
+                        $.post("/category/save", data, function (result) {
+                            layer.closeAll();
+                            if (result.code == 0) {
+                                layer.msg("保存成功");
+                                $("#searchBtn").click();
+                            } else {
+                                layer.msg(result.msg);
+                            }
+                        })
+                    });
+                    upload.render({
+                        elem: "#avatarImg",
+                        url: "/attachment/upload",
+                        done: function (res, index, upload) {
+                            if (res.code == 0) {
+                                $("#avatarInput").val(res.data.filePath);
+                                $("#avatarImg").attr("src", res.data.filePath);
+                            }
+                        },
+                    });
+                });
+            }
+            if (event === "delete") {
+                layer.confirm("您确定要删除这个菜单吗", function () {
+                    $.post("/category/delete/" + obj.data.id, function (result) {
+                        layer.closeAll();
+                        if (result.code == 0) {
+                            layer.msg("删除成功");
+                            $("#searchBtn").click();
+                        } else {
+                            layer.msg(result.msg);
+                        }
+                    });
+                });
+            }
+
+        });
+
+    });
+
+</script>
+</body>
+</html>
